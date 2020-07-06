@@ -19,22 +19,54 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+
+import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @WebServlet("/comment")
 public final class CommentServlet extends HttpServlet {
-
+    private List<Comment> comments =   new ArrayList<>();
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  public void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String name = request.getParameter("name");
-    String comment = request.getParameter("comment");
+      StringBuilder strbuilder = new StringBuilder();
+     try(BufferedReader reader = req.getReader();) {
+          char[] buff = new char[1024];
+          int len;
+          while((len = reader.read(buff)) != -1) {
+              strbuilder.append(buff,0, len);
+          }
+     }catch (IOException e) {
+          e.printStackTrace(); 
+    }
 
+    Gson gson = new Gson();
+    String json = strbuilder.toString();
+    
+    Comment comment = gson.fromJson(json, Comment.class);
+
+    String name = comment.name;
+    String content = comment.comment;
+    
     System.out.println(name);
-
-    System.out.println(comment);
+    System.out.println(content);
+    
+    this.comments.add(comment);
 
     // Respond with the result.
-    response.setContentType("text/html;");
+    response.setContentType("application/json");
     response.getWriter().println("OK");
+  }
+  
+  @Override
+  public void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json");
+    
+    Gson gson = new Gson();
+    String json = gson.toJson(this.comments);  
+    response.getWriter().println(json);
   }
 }
