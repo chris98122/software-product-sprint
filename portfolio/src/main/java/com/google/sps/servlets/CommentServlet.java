@@ -29,9 +29,9 @@ public final class CommentServlet extends HttpServlet {
     String name = request.getParameter("name");
     String comment = request.getParameter("comment");
 
-    System.out.Println(name);
+    System.out.println(name);
 
-    System.out.Println(comment);
+    System.out.println(comment);
 
     // Respond with the result.
     response.setContentType("text/html;");
