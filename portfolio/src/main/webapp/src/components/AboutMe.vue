@@ -14,35 +14,41 @@
         md="6"
       >
         <base-bubble-1 style="transform: translate(5%, -5%)" />
-
-        <base-heading class="info--text">
-          About Me🤔
-        </base-heading>
-
         <v-row>
-        <v-col    cols="8">
-        <base-text class="mb-5">
-           Major in Software Engineering<br>
-           SJTU<br>
-          Graduate in 2021
-        </base-text>
+        <v-col
+          cols="6"
+        >
+        <base-heading
+          class="info--text"
+        >
+          About Me
+        </base-heading>
+          <base-text class="headline font-weight">
+            Major in Software Engineering<br>
+            SJTU<br>
+            Graduate in 2021
+          </base-text>
         </v-col>
-        <v-col   cols="4">
+        <v-col
+          cols="6"
+        >
           <v-img
-            :src="require('@/assets/sjtu.jpg')"
+            :src="require('@/assets/kuroco.jpg')"
             class="align-center ma-3"
             contain
-            height="60%"
+            max-height ="250px"
           />
         </v-col>
         </v-row>
 
-        <base-subheading class="info--text">
-          Skills😎
-        </base-subheading>
+        <base-heading
+          class="info--text"
+        >
+          Languages
+        </base-heading>
         <v-row>
         <v-col   cols="8">
-        <base-text class="mb-5">
+          <base-text class="headline font-weight">
           Writes C++ ,Java, JavaScript<br>
           Currently learning Go
         </base-text>
@@ -56,6 +62,11 @@
             />
           </v-col>
          </v-row>
+        <base-heading
+          class="info--text"
+        >
+          Skills
+        </base-heading>
         <v-alert
           outlined
           color="info"

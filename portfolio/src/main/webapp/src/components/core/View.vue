@@ -2,12 +2,11 @@
   <div>
     <welcome />
 
-    <recent-projects />
-
-    <services />
-
     <about-me />
 
+    <recent-projects />
+
+    <hobby />
     <get-in-touch />
 
     <comments />
@@ -22,7 +21,7 @@
       AboutMe: () => import('@/components/AboutMe'),
       GetInTouch: () => import('@/components/GetInTouch'),
       RecentProjects: () => import('@/components/RecentProjects'),
-      Services: () => import('@/components/Services'),
+      Hobby: () => import('@/components/Hobby'),
       Welcome: () => import('@/components/Welcome'),
       Comments: () => import('@/components/Comments'),
     },
