@@ -65,7 +65,7 @@
             class="align-center ma-10"
             :disabled="!valid"
             color="#fed21f"
-            @click="Submit"
+            @click="Submit()"
           >
             Submit
           </v-btn>
@@ -129,12 +129,14 @@
 </template>
 
 <script>
+  const axios = require('axios')
   export default {
     name: 'Comments',
 
     data: () => ({
       valid: true,
       name: '',
+      comment: '',
       nameRules: [
         v => !!v || 'Name is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters',
@@ -180,6 +182,13 @@
     methods: {
       validate () {
         this.$refs.form.validate()
+      },
+      Submit () {
+        console.log(this.name)
+        console.log(this.comment)
+        axios.post('/comment', { name: this.name, comment: this.comment }).then(function (res) {
+          console.log(res)
+        })
       },
     },
   }

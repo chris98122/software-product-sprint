@@ -30,3 +30,22 @@ public class DataServlet extends HttpServlet {
     response.getWriter().println("<h1>Hello world!</h1>");
   }
 }
+
+@WebServlet("/comment")
+public final class TextProcessorServlet extends HttpServlet {
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String name = request.getParameter("name");
+    String comment = request.getParameter("comment");
+
+    System.out.Println(name);
+
+    System.out.Println(comment);
+
+    // Respond with the result.
+    response.setContentType("text/html;");
+    response.getWriter().println("OK");
+  }
+}
