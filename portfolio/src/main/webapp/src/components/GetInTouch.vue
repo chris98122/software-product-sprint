@@ -103,6 +103,9 @@
           </v-card>
         </v-hover>
       </v-col>
+      <base-bubble-1
+        style="transform: rotate(180deg) translateY(65%)"
+      />
     </v-row>
     </v-container>
   </section>

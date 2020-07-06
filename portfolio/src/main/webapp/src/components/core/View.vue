@@ -9,6 +9,8 @@
     <about-me />
 
     <get-in-touch />
+
+    <comments />
   </div>
 </template>
 
@@ -22,6 +24,7 @@
       RecentProjects: () => import('@/components/RecentProjects'),
       Services: () => import('@/components/Services'),
       Welcome: () => import('@/components/Welcome'),
+      Comments: () => import('@/components/Comments'),
     },
   }
 </script>

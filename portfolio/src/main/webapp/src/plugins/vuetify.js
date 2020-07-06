@@ -11,6 +11,7 @@ export default new Vuetify({
         secondary: '#BFADA5',
         accent: '#D8EBF1',
         info: '#5B5C79',
+        happygreen: '#c8daa6',
       },
     },
   },

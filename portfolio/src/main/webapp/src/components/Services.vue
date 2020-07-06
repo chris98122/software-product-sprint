@@ -4,6 +4,10 @@
     class="overflow-hidden"
   >
     <v-container>
+
+      <base-bubble-1
+        style="transform: rotate(180deg) translateY(25%)"
+      />
     <v-row
       class="accent"
       no-gutters
@@ -33,6 +37,9 @@
         </v-col>
       </v-row>
 
+      <base-bubble-2
+        style="transform: rotate(180deg) translate(-200px, -15%)"
+      />
     </v-row>
     </v-container>
   </section>

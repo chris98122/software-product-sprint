@@ -100,6 +100,9 @@
         </v-row>
       </v-col>
     </v-row>
+      <base-bubble-1
+        style="transform: rotate(180deg) translateY(25%)"
+      />
     </v-container>
   </section>
 </template>
