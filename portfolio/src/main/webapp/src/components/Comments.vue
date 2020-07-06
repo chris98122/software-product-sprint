@@ -186,9 +186,22 @@
       Submit () {
         console.log(this.name)
         console.log(this.comment)
-        axios.post('/comment', { name: this.name, comment: this.comment }).then(function (res) {
-          console.log(res)
+        axios({
+          method: 'POST',
+          url: '/comment',
+          data: { name: this.name, comment: this.comment },
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }).then(function (response) {
+          console.log(response)
         })
+          .catch(function (error) {
+            console.log(error)
+          })
+          .then(function () {
+            // always executed
+          })
       },
     },
   }
