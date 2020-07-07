@@ -188,10 +188,10 @@
           console.log(response)
           console.log(response.status)
           if (response.status === 200) {
-            this.name.clear()
-            this.comment.clear()
-            this.snackbar = true
             this.getComment()
+            this.name = ''
+            this.comment = ''
+            this.snackbar = true
           }
         })
           .catch(function (error) {
