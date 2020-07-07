@@ -61,6 +61,7 @@
             required
           ></v-textarea>
           <v-btn
+            class="align-center ma-10"
             :disabled="!valid"
             color="orange"
             @click="Submit"
@@ -90,6 +91,13 @@
 
     <v-container>
     <v-row>
+      <v-col
+        cols="2"
+      />
+      <v-col
+        class="align-center"
+        cols="8"
+      >
       <v-card
         max-width="850"
         class="mx-auto"
@@ -100,10 +108,12 @@
         >
           <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-          <v-toolbar-title>Comments</v-toolbar-title>
+          <v-toolbar-title>Comments✏️</v-toolbar-title>
 
           <v-spacer></v-spacer>
-
+          <template v-if="this.items.length === 0">
+            <v-toolbar-title>No comment right now✍Write me anything</v-toolbar-title>
+          </template>
         </v-toolbar>
 
         <v-list three-line>
@@ -121,6 +131,7 @@
           </template>
         </v-list>
       </v-card>
+      </v-col>
     </v-row>
   </v-container>
   </section>
@@ -177,6 +188,8 @@
           console.log(response)
           console.log(response.status)
           if (response.status === 200) {
+            this.name.clear()
+            this.comment.clear()
             this.snackbar = true
             this.getComment()
           }
