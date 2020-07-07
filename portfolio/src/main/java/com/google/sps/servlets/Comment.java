@@ -6,6 +6,7 @@ public class Comment {
     private String name;
     private String comment;
     private float sentiment_score;
+    private float abs_score;
 
     public Comment(String name, String comment) {
         this.name = name;
@@ -16,6 +17,10 @@ public class Comment {
         this.name = name;
         this.comment = comment;
         this.sentiment_score = sentiment_score;
+    }
+
+    public void setAbs_score(float abs_score) {
+        this.abs_score = abs_score;
     }
 
     public String getName() {
@@ -40,6 +45,7 @@ public class Comment {
 
     public void setSentiment_score(float sentiment_score) {
         this.sentiment_score = sentiment_score;
+        this.setAbs_score(Math.abs(sentiment_score));
     }
 
     @Override

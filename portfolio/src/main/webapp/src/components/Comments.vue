@@ -126,6 +126,20 @@
               <v-list-item-content>
                 <v-list-item-title v-html="item.name"></v-list-item-title>
                 <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
+                <v-rating
+                  v-model="item.abs_score"
+                  :length="length"
+                  :empty-icon="emptyIcon"
+                  :full-icon="fullIcon"
+                  :half-icon="halfIcon"
+                  :half-increments="halfIncrements"
+                  :hover="hover"
+                  :readonly="readonly"
+                  :size="size"
+                  :dense="dense"
+                  :color="item.sentiment_score < 0 ? color[0] :color[1]"
+                  :background-color="bgColor"
+                ></v-rating>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -158,6 +172,18 @@
       colors: ['#385F73', '#1F7087', '#952175'],
       items: [
       ],
+      emptyIcon: 'mdi-heart-outline',
+      fullIcon: 'mdi-heart',
+      halfIcon: 'mdi-heart-half-full',
+      halfIncrements: true,
+      hover: true,
+      length: 5,
+      rating: 2,
+      readonly: true,
+      size: 25,
+      dense: true,
+      color: ['grey', 'red lighten-3'],
+      bgColor: 'grey lighten-1',
     }),
     mounted () { // 获得comment
       this.getComment()

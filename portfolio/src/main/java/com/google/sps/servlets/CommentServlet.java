@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.gson.Gson;
 
 import javax.servlet.annotation.WebServlet;
@@ -25,11 +28,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.cloud.language.v1.Document;
-import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.Sentiment;
 @WebServlet("/comment")
 public final class CommentServlet extends HttpServlet {
+    final int score_multiplier = 5;
     private List<Comment> comments = new ArrayList<>();
 
     @Override
@@ -55,7 +56,7 @@ public final class CommentServlet extends HttpServlet {
         String name = comment.getName();
         String content = comment.getComment();
 
-        float score = getscore(content);
+        float score = getscore(content) * score_multiplier;
         comment.setSentiment_score(score);
 
         System.out.println("name:" + name);
