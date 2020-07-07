@@ -60,15 +60,28 @@
             label="comment"
             required
           ></v-textarea>
-
           <v-btn
-            class="align-center ma-10"
             :disabled="!valid"
-            color="#fed21f"
-            @click="Submit()"
+            color="orange"
+            @click="Submit"
           >
-            Submit
+           Submit
           </v-btn>
+
+          <v-snackbar
+            v-model="snackbar"
+            :timeout="timeout"
+          >
+            {{ text }}
+
+              <v-btn
+                color="orange"
+                text
+                @click="snackbar = false"
+              >
+                Comment Success
+              </v-btn>
+          </v-snackbar>
         </v-form>
       </v-card>
     </v-col>
@@ -95,29 +108,14 @@
 
         <v-list three-line>
           <template v-for="(item, index) in items">
-            <v-subheader
-              v-if="item.header"
-              :key="item.header"
-              v-text="item.header"
-            ></v-subheader>
-
-            <v-divider
-              v-else-if="item.divider"
-              :key="index"
-              :inset="item.inset"
-            ></v-divider>
 
             <v-list-item
-              v-else
-              :key="item.title"
+              :key="item"
             >
-              <v-list-item-avatar>
-                <v-img :src="item.avatar"></v-img>
-              </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title v-html="item.title"></v-list-item-title>
-                <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+                <v-list-item-title v-html="item.name"></v-list-item-title>
+                <v-list-item-subtitle v-html="item.comment"></v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -134,6 +132,8 @@
     name: 'Comments',
 
     data: () => ({
+      snackbar: false,
+      timeout: 1000,
       valid: true,
       name: '',
       comment: '',
@@ -183,7 +183,14 @@
       validate () {
         this.$refs.form.validate()
       },
+      reset () {
+        this.$refs.form.reset()
+      },
+      resetValidation () {
+        this.$refs.form.resetValidation()
+      },
       Submit () {
+        this.snackbar = false
         console.log(this.name)
         console.log(this.comment)
         axios({
@@ -193,8 +200,33 @@
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
-        }).then(function (response) {
+        }).then((response) => {
+          //  箭头函数内部的this是词法作用域,是由外层调用者vue来确定,使用箭头函数之后，箭头函数指向的函数内部的this已经绑定了外部的vue实例了
           console.log(response)
+          console.log(response.status)
+          if (response.status === 200) {
+            this.snackbar = true
+          }
+        })
+          .catch(function (error) {
+            console.log(error)
+          })
+          .then(function () {
+            // always executed
+          })
+      },
+      getComment () {
+        axios({
+          method: 'GET',
+          url: '/comment',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }).then((response) => {
+          console.log(response)
+          if (response.status === 200) {
+            this.items = response.data
+          }
         })
           .catch(function (error) {
             console.log(error)
