@@ -73,35 +73,34 @@
           />
         </v-card>
 
-        <v-hover>
-
-          <v-card
-            slot-scope="{ hover }"
-            onclick="window.open('https://www.linkedin.com/in/%E4%BD%B3%E6%87%BF-%E5%91%A8-b505221a0/')"
-            class="align-center ma-10"
-            color="#26c6da"
-            dark
-            max-width="400"
-          >
-            <v-card-title>
-              <v-icon
-                large
+          <v-hover>
+            <v-card
+              slot-scope="{ hover }"
+              onclick="window.open('https://www.linkedin.com/in/%E4%BD%B3%E6%87%BF-%E5%91%A8-b505221a0/')"
+              class="align-center ma-10"
+              color="#26c6da"
+              dark
+              max-width="400"
+              max-height="300"
+            >
+              <v-img
+                src="@/assets/linkedin.jpg"
+                max-height="200"
+                contain
+                right
               >
-                mdi-linkedin
-              </v-icon>
-              <span class="title font-weight-light">LinkedIn</span>
-            </v-card-title>
-              <v-expand-transition>
-                <div
-                  v-if="hover"
-                  class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
-                  style="height: 100%;"
-                >
-                  LinkedIn👉
-                </div>
-              </v-expand-transition>
-          </v-card>
-        </v-hover>
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex transition-fast-in-fast-out blue darken-2 v-card--reveal display-3 white--text"
+                    style="height: 100%;"
+                  >
+                    👉
+                  </div>
+                </v-expand-transition>
+              </v-img>
+            </v-card>
+          </v-hover>
       </v-col>
       <base-bubble-1
         style="transform: rotate(180deg) translateY(65%)"
