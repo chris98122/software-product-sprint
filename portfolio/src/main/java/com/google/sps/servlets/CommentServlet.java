@@ -32,8 +32,9 @@ public final class CommentServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-      StringBuilder strbuilder = new StringBuilder();
-     try(BufferedReader reader = req.getReader();) {
+    req.setCharacterEncoding("utf-8");
+    StringBuilder strbuilder = new StringBuilder();
+    try(BufferedReader reader = req.getReader();) {
           char[] buff = new char[1024];
           int len;
           while((len = reader.read(buff)) != -1) {
@@ -51,8 +52,8 @@ public final class CommentServlet extends HttpServlet {
     String name = comment.name;
     String content = comment.comment;
     
-    System.out.println(name);
-    System.out.println(content);
+    System.out.println("name:" +name);
+    System.out.println("comment content:"+content);
     
     this.comments.add(comment);
 
