@@ -14,60 +14,77 @@
 
 package com.google.sps.servlets;
 
-import java.io.IOException;
+import com.google.gson.Gson;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 @WebServlet("/comment")
 public final class CommentServlet extends HttpServlet {
-    private List<Comment> comments =   new ArrayList<>();
-  @Override
-  public void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
-    req.setCharacterEncoding("utf-8");
-    StringBuilder strbuilder = new StringBuilder();
-    try(BufferedReader reader = req.getReader();) {
-          char[] buff = new char[1024];
-          int len;
-          while((len = reader.read(buff)) != -1) {
-              strbuilder.append(buff,0, len);
-          }
-     }catch (IOException e) {
-          e.printStackTrace(); 
+    private List<Comment> comments = new ArrayList<>();
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
+        // Get the input from the form.
+        req.setCharacterEncoding("utf-8");
+        StringBuilder strbuilder = new StringBuilder();
+        try (BufferedReader reader = req.getReader();) {
+            char[] buff = new char[1024];
+            int len;
+            while ((len = reader.read(buff)) != -1) {
+                strbuilder.append(buff, 0, len);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Gson gson = new Gson();
+        String json = strbuilder.toString();
+
+        Comment comment = gson.fromJson(json, Comment.class);
+
+        String name = comment.getName();
+        String content = comment.getComment();
+
+        float score = getscore(content);
+        comment.setSentiment_score(score);
+
+        System.out.println("name:" + name);
+        System.out.println("comment content:" + content);
+        System.out.println("score:" + score);
+
+        this.comments.add(comment);
+
+        // Respond with the result.
+        response.setContentType("application/json");
+        response.getWriter().println("OK");
     }
 
-    Gson gson = new Gson();
-    String json = strbuilder.toString();
-    
-    Comment comment = gson.fromJson(json, Comment.class);
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
 
-    String name = comment.name;
-    String content = comment.comment;
-    
-    System.out.println("name:" +name);
-    System.out.println("comment content:"+content);
-    
-    this.comments.add(comment);
+        Gson gson = new Gson();
+        String json = gson.toJson(this.comments);
+        response.getWriter().println(json);
+    }
 
-    // Respond with the result.
-    response.setContentType("application/json");
-    response.getWriter().println("OK");
-  }
-  
-  @Override
-  public void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json");
-    
-    Gson gson = new Gson();
-    String json = gson.toJson(this.comments);  
-    response.getWriter().println(json);
-  }
+    private float getscore(String message) throws IOException {
+        Document doc =
+                Document.newBuilder().setContent(message).setType(Document.Type.PLAIN_TEXT).build();
+        LanguageServiceClient languageService = LanguageServiceClient.create();
+        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+        float score = sentiment.getScore();
+        languageService.close();
+        return score;
+    }
 }
